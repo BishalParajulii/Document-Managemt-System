@@ -1,5 +1,4 @@
 # documents/utils.py
-
 def can_view(user, document):
     if user.is_superuser:
         return True
