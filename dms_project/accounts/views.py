@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from .serializers import RegisterSerializer
+from .serializers import RegisterSerializer , MyTokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -18,3 +19,8 @@ class RegisterAPIView(APIView):
                 status = status.HTTP_201_CREATED
             )
         return Response(serializer.error , status = status.HTTP_400_BAD_REQUEST)
+    
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    permission_classes = [AllowAny]
+    serializer_class = MyTokenObtainPairSerializer
