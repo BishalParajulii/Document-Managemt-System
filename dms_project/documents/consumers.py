@@ -30,6 +30,12 @@ class DocumentConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
+        
+    async def receive_json(self, content):
+        await self.send_json({
+            "message": content["content"]
+        })
+
 
     async def receive(self, text_data):
         data = json.loads(text_data)
