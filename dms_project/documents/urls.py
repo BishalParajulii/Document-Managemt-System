@@ -1,6 +1,7 @@
-from django.urls import path
-from .views import EmployeeDocumentView
+from rest_framework.routers import DefaultRouter
+from .views import DocumentViewSet
 
-urlpatterns = [
-    path('docs/' , EmployeeDocumentView.as_view() , name='document')
-]
+router = DefaultRouter()
+router.register(r'docs', DocumentViewSet, basename='document')
+
+urlpatterns = router.urls
