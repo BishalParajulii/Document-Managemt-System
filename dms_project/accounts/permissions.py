@@ -1,0 +1,48 @@
+from django.contrib.auth.models import Group
+
+def is_employee(user):
+    return user.groups.filter(name="employee").exists()
+
+def is_manager(user):
+    return user.groups.filter(name="manager").exists()
+
+def is_hr(user):
+    return user.groups.filter(name="hr").exists()
+
+def is_admin(user):
+    return user.is_superuser or user.groups.filter(name="admin").exists()
+
+
+def can_view_document(user, document):
+    if is_admin(user):
+        return True
+
+    if document.created_by == user:
+        return True
+
+    uploader = document.created_by
+
+    if is_employee(uploader):
+        return True
+
+    if (is_manager(uploader) and is_hr(user)) or \
+       (is_hr(uploader) and is_manager(user)):
+        return True
+
+    return False
+
+
+def can_edit_document(user, document):
+    if is_admin(user):
+        return True
+
+    if document.created_by == user:
+        return True
+
+    uploader = document.created_by
+
+    if is_employee(uploader):
+        if is_manager(user) or is_hr(user):
+            return True
+
+    return False
