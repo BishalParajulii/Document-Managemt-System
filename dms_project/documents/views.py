@@ -3,15 +3,15 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializers import DocumentSerializer
 from .permissions import DocumentPermission
-from .models import Document
+from .models import Document , DocumentContent
 from accounts.permissions import can_edit_document , can_view_document
+from rest_framework.generics import ListAPIView
 
 class DocumentViewSet(ModelViewSet):
     serializer_class = DocumentSerializer
     permission_classes = [IsAuthenticated, DocumentPermission]
 
     def get_queryset(self):
-        # DO NOT FILTER HERE
         return Document.objects.all()
 
     def list(self, request, *args, **kwargs):
@@ -24,4 +24,13 @@ class DocumentViewSet(ModelViewSet):
         return Response(serializer.data)
 
     def perform_create(self, serializer):
-        serializer.save(created_by=self.request.user)
+        doc = serializer.save(created_by = self.request.user)
+        DocumentContent.objects.create(document=doc , content="")
+
+
+class MyDocumentView(ListAPIView):
+    serializer_class = DocumentSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        return Document.objects.filter(created_by=self.request.user)
