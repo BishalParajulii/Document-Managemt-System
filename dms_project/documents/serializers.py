@@ -10,6 +10,12 @@ class DocumentSerializer(serializers.ModelSerializer):
         
         
 class DocumentContentSerializer(serializers.ModelSerializer):
+    document = serializers.CharField(source="document.title" , read_only = True)
+    updated_at = serializers.DateTimeField(
+        format = "%Y-%m-%d %H:%M:%S",
+        read_only = True
+    )
+    last_edited_by = serializers.CharField(source="last_edited_by.username" , read_only = True)
     class Meta:
         model = DocumentContent
         fields = ['id' , 'document' , 'content' , 'last_edited_by' , 'updated_at']

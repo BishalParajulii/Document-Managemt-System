@@ -8,25 +8,24 @@ from accounts.permissions import can_edit_document , can_view_document
 from rest_framework.generics import ListAPIView , RetrieveUpdateAPIView
 from .permissions import DocumentPermission
 
+
+
 class DocumentViewSet(ModelViewSet):
     serializer_class = DocumentSerializer
     permission_classes = [IsAuthenticated, DocumentPermission]
 
     def get_queryset(self):
-        return Document.objects.all()
+        user = self.request.user
 
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        allowed_docs = [
-            doc for doc in queryset
-            if can_view_document(request.user, doc)
-        ]
-        serializer = self.get_serializer(allowed_docs, many=True)
-        return Response(serializer.data)
+        if user.groups.filter(name="admin").exists():
+            return Document.objects.all()
+
+        return Document.objects.filter(created_by=user)
 
     def perform_create(self, serializer):
-        doc = serializer.save(created_by = self.request.user)
-        DocumentContent.objects.create(document=doc , content="")
+        doc = serializer.save(created_by=self.request.user)
+        DocumentContent.objects.create(document=doc, content="")
+
 
 
 class MyDocumentView(ListAPIView):
@@ -44,5 +43,5 @@ class DocumentContentView(RetrieveUpdateAPIView):
     def get_queryset(self):
         return DocumentContent.objects.all()
     
-    def perform_update(self):
+    def perform_update(self , serializer):
         serializer.save(last_edited_by=self.request.user)
