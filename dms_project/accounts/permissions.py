@@ -17,8 +17,8 @@ def can_view_document(user, document):
     if not user:
         return False
     
-    if not document.created_by:
-        return False
+    if document.created_by == user:
+        return True
     
     uploader = document.created_by
     
@@ -31,11 +31,8 @@ def can_view_document(user, document):
     if is_employee(uploader) :
         return True
     
-    if is_manager(uploader):
-        return is_manager(user) or is_hr(user)
-    
-    if is_hr(uploader):
-        return is_manager(user) or is_hr(user)
+    if (is_manager(uploader) and is_hr(user)) or (is_hr(uploader) and is_manager(user)):
+        return True
     
     return False    
 
