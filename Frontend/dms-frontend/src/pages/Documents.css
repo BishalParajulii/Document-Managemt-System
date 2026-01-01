@@ -1,0 +1,24 @@
+.documents-layout {
+  display: flex;
+  height: 100vh;
+  background-color: #f1f5f9;
+  font-family: "Inter", sans-serif;
+}
+
+.documents-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.documents-grid {
+  padding: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.empty-text {
+  color: #64748b;
+  font-size: 16px;
+}
