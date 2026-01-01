@@ -1,4 +1,4 @@
-import "./DocumentCard.css"; // we’ll create this next
+import "../css/DocumentCard.css"; // we’ll create this next
 
 const DocumentCard = ({ doc }) => {
   if (!doc) return null;

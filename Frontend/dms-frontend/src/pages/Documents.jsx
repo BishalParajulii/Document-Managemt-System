@@ -3,7 +3,7 @@ import api from "../api/axios";
 import Sidebar from "../components/Sidebar";
 import Topbar from "../components/Topbar";
 import DocumentCard from "../components/DocumentCard";
-import "./Documents.css";
+import "../css/Documents.css";
 
 const Documents = () => {
   const [docs, setDocs] = useState([]);
