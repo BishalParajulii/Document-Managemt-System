@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import "../css/Login.css";
 
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -24,9 +25,11 @@ const Login = () => {
 
       localStorage.setItem("access", res.data.access);
       localStorage.setItem("refresh", res.data.refresh);
+      localStorage.setItem("user" , res.data.username);
 
       navigate("/documents");
     } catch (err) {
+      console.log(err)
       setError("Invalid username or password");
     } finally {
       setLoading(false);

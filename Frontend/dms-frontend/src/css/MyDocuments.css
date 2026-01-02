@@ -1,0 +1,23 @@
+.mydocs-container {
+  padding: 25px;
+  background: #f9fafb;
+  min-height: 100vh;
+}
+
+.mydocs-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #1f2937;
+}
+
+.mydocs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.status {
+  color: #6b7280;
+  font-size: 14px;
+}

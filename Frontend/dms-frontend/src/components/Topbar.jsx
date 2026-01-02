@@ -1,24 +1,33 @@
+import "../css/Topbar.css";
+
 const Topbar = () => {
-  const user = localStorage.getItem("user") || "User";
+  const username = localStorage.getItem("user") || "Guest";
+
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.href = "/";
+  };
 
   return (
-    <div style={styles.topbar}>
-      <h3>Documents Dashboard</h3>
-      <span>{user}</span>
+    <div className="topbar">
+      <div className="topbar-left">
+        <h2>📁 Document Dashboard</h2>
+      </div>
+
+      <div className="topbar-right">
+        <div className="user-info">
+          <span className="avatar">
+            {username.charAt(0).toUpperCase()}
+          </span>
+          <span className="username">{username}</span>
+        </div>
+
+        <button className="logout-btn" onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
     </div>
   );
-};
-
-const styles = {
-  topbar: {
-    height: "60px",
-    background: "#f8fafc",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "0 20px",
-    borderBottom: "1px solid #e5e7eb",
-  },
 };
 
 export default Topbar;
