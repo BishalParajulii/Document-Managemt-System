@@ -44,3 +44,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['username'] = user.username
         return token
     
+    def validate(self, attrs):
+        data =  super().validate(attrs)
+        data['username'] = self.user.username
+        return data
+    
