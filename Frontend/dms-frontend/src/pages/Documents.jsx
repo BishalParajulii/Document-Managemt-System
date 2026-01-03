@@ -3,11 +3,13 @@ import api from "../api/axios";
 import Sidebar from "../components/Sidebar";
 import Topbar from "../components/Topbar";
 import DocumentCard from "../components/DocumentCard";
+import UploadModal from "../components/UploadModal";
 import "../css/Documents.css";
 
 const Documents = () => {
   const [docs, setDocs] = useState([]);
   const [active, setActive] = useState("all");
+  const [showUpload, setShowUpload] = useState(false);
 
   useEffect(() => {
     loadDocs();
@@ -17,10 +19,9 @@ const Documents = () => {
     try {
       const endpoint = active === "mine" ? "my-docs/" : "docs/";
       const res = await api.get(endpoint);
-      console.log("DOCS Response" , res.data)
       setDocs(res.data);
     } catch (err) {
-      console.error("Failed to load documents", err);
+      console.error("Failed to load documents:", err);
     }
   };
 
@@ -29,7 +30,7 @@ const Documents = () => {
       <Sidebar active={active} setActive={setActive} />
 
       <div className="documents-main">
-        <Topbar />
+        <Topbar onUpload={() => setShowUpload(true)} />
 
         <div className="documents-grid">
           {docs.length > 0 ? (
@@ -39,6 +40,13 @@ const Documents = () => {
           )}
         </div>
       </div>
+
+      {showUpload && (
+        <UploadModal
+          onClose={() => setShowUpload(false)}
+          onSuccess={loadDocs}
+        />
+      )}
     </div>
   );
 };
