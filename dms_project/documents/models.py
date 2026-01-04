@@ -8,11 +8,14 @@ class Document(models.Model):
     
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="created_document")
     
-    is_locked = models.BooleanField(default=False)
-    locked_password = models.CharField(max_length=100, blank=True , help_text="Hashed password for locked documents")
+    locked_password = models.CharField(max_length=128, blank=True , help_text="Hashed password for locked documents" , null=True)
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    @property
+    def is_locked(self):
+        return bool(self.locked_password)
     
     def __str__(self):
         return self.title
