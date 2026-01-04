@@ -27,3 +27,11 @@
   transform: translateY(-5px);
   box-shadow: 0 6px 18px rgba(0,0,0,0.2);
 }
+
+.document-card {
+  cursor: pointer;
+}
+
+.document-card:hover {
+  box-shadow: 0 0 8px rgba(0,0,0,0.15);
+}

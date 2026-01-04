@@ -3,13 +3,13 @@ import api from "../api/axios";
 import Sidebar from "../components/Sidebar";
 import Topbar from "../components/Topbar";
 import DocumentCard from "../components/DocumentCard";
-import UploadModal from "../components/UploadModal";
+import DocumentPreviewModal from "../components/DocumentPreviewModal";
 import "../css/Documents.css";
 
 const Documents = () => {
   const [docs, setDocs] = useState([]);
   const [active, setActive] = useState("all");
-  const [showUpload, setShowUpload] = useState(false);
+  const [previewFile, setPreviewFile] = useState(null);
 
   useEffect(() => {
     loadDocs();
@@ -21,8 +21,16 @@ const Documents = () => {
       const res = await api.get(endpoint);
       setDocs(res.data);
     } catch (err) {
-      console.error("Failed to load documents:", err);
+      console.error("Failed to load documents", err);
     }
+  };
+
+  const openPreview = (file) => {
+    const url = file.startsWith("http")
+      ? file
+      : `http://127.0.0.1:8000${file}`;
+
+    setPreviewFile(url);
   };
 
   return (
@@ -30,23 +38,27 @@ const Documents = () => {
       <Sidebar active={active} setActive={setActive} />
 
       <div className="documents-main">
-        <Topbar onUpload={() => setShowUpload(true)} />
+        <Topbar />
 
         <div className="documents-grid">
           {docs.length > 0 ? (
-            docs.map((doc) => <DocumentCard key={doc.id} doc={doc} />)
+            docs.map((doc) => (
+              <DocumentCard
+                key={doc.id}
+                doc={doc}
+                onOpen={openPreview}
+              />
+            ))
           ) : (
             <p className="empty-text">No documents found</p>
           )}
         </div>
       </div>
 
-      {showUpload && (
-        <UploadModal
-          onClose={() => setShowUpload(false)}
-          onSuccess={loadDocs}
-        />
-      )}
+      <DocumentPreviewModal
+        fileUrl={previewFile}
+        onClose={() => setPreviewFile(null)}
+      />
     </div>
   );
 };
