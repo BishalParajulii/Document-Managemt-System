@@ -6,7 +6,7 @@ const DocumentCard = ({ doc, onOpen }) => {
       alert("No file attached");
       return;
     }
-    onOpen(doc.file);
+    onOpen(doc);
   };
 
   return (
@@ -15,9 +15,15 @@ const DocumentCard = ({ doc, onOpen }) => {
       onDoubleClick={handleDoubleClick}
       title="Double click to open"
     >
-      <h3>{doc.title}</h3>
-      <p>Created by: {doc.created_by}</p>
-      <small>{new Date(doc.created_at).toLocaleString()}</small>
+      <div className="doc-header">
+        <h3>{doc.title}</h3>
+        {doc.is_locked && <span className="lock-badge">🔒</span>}
+      </div>
+
+      <p className="created-by">Created by: {doc.created_by}</p>
+      <small className="date">
+        {new Date(doc.created_at).toLocaleString()}
+      </small>
     </div>
   );
 };

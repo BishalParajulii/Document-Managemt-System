@@ -1,37 +1,59 @@
-.doc-card {
-  background: #fff;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.doc-card h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-
-.doc-card p {
-  color: #555;
-  margin-bottom: 5px;
-}
-
-.doc-card small {
-  color: #888;
-  font-size: 12px;
-}
-
-.doc-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
-}
-
 .document-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 18px 16px;
+
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.06);
+
+  border: 1px solid #e5e7eb;
   cursor: pointer;
+  transition: all 0.25s ease;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  position: relative;
+}
+
+/* Document icon watermark */
+.document-card::after {
+  content: "📄";
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 32px;
+  opacity: 0.2;
 }
 
 .document-card:hover {
-  box-shadow: 0 0 8px rgba(0,0,0,0.15);
+  transform: translateY(-6px);
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.15);
+  border-color: #3b82f6;
+}
+
+/* Title */
+.document-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+  word-break: break-word;
+}
+
+/* Created by */
+.document-card p {
+  font-size: 13px;
+  color: #475569;
+  margin: 0;
+}
+
+/* Date */
+.document-card small {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: auto;
 }

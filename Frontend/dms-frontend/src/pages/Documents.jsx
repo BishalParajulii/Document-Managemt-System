@@ -4,12 +4,14 @@ import Sidebar from "../components/Sidebar";
 import Topbar from "../components/Topbar";
 import DocumentCard from "../components/DocumentCard";
 import DocumentPreviewModal from "../components/DocumentPreviewModal";
+import UploadModal from "../components/UploadModal";
 import "../css/Documents.css";
 
 const Documents = () => {
   const [docs, setDocs] = useState([]);
   const [active, setActive] = useState("all");
   const [previewFile, setPreviewFile] = useState(null);
+  const [showUpload, setShowUpload] = useState(false);
 
   useEffect(() => {
     loadDocs();
@@ -38,7 +40,8 @@ const Documents = () => {
       <Sidebar active={active} setActive={setActive} />
 
       <div className="documents-main">
-        <Topbar />
+        {/* ✅ PASS onUpload */}
+        <Topbar onUpload={() => setShowUpload(true)} />
 
         <div className="documents-grid">
           {docs.length > 0 ? (
@@ -55,10 +58,21 @@ const Documents = () => {
         </div>
       </div>
 
-      <DocumentPreviewModal
-        fileUrl={previewFile}
-        onClose={() => setPreviewFile(null)}
-      />
+      {/* PREVIEW MODAL */}
+      {previewFile && (
+        <DocumentPreviewModal
+          fileUrl={previewFile}
+          onClose={() => setPreviewFile(null)}
+        />
+      )}
+
+      {/* ✅ UPLOAD MODAL */}
+      {showUpload && (
+        <UploadModal
+          onClose={() => setShowUpload(false)}
+          onSuccess={loadDocs}
+        />
+      )}
     </div>
   );
 };
